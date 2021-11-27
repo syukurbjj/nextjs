@@ -6,7 +6,7 @@ export async function getServerSideProps(ctx) {
     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${ctx.params.detail}`)
     const details = await res.json()
     return {
-        props : { detail: details }
+        props: { detail: details }
     }
 }
 
@@ -14,17 +14,17 @@ export async function getServerSideProps(ctx) {
 
 
 
-const showCategory = ({detail}) => {
-    
+const showCategory = ({ detail }) => {
+
     return (
         <div>
             {detail.meals.map(det => (
                 <div>
                     <Link href={`/detail/menu/${det.idMeal}`}>
-                    {det.strMeal}
+                        {det.strMeal}
                     </Link>
                 </div>
-            ))}            
+            ))}
         </div>
     )
 }
