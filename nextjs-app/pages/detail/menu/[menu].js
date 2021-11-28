@@ -12,12 +12,24 @@ export async function getServerSideProps(context) {
 
 const menuMeal = ({ datas }) => {
     return (
-        <div>
+        <div className="container">
+            <div className="row">
+
             {datas.map(dat => (
                 <div>
-                    {dat.strMeal}
+                    
+                   <h1> {dat.strMeal} </h1>
+                   <img src={dat.strMealThumb} className="img-fluid"></img>
+                   <li class="list-group-item">{dat.strInstructions}</li>
+                   <iframe 
+                  src={`https://www.youtube.com/embed/${dat.strYoutube.split("=")[1]}`}
+                  frameBorder="0"
+                  width="500"
+                  height="500"
+                />
                 </div>
             ))}
+            </div>
         </div>
     )
 
