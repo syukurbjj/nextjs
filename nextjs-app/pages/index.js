@@ -13,7 +13,7 @@ const PageAlldata = ({ data }) => {
                         <div className="card" style={{ width: "18rem;", marginTop: "10px" }}>
                             <img src={datas.strCategoryThumb} className="card-img-top" alt="..." />
                             <div class="card-body">
-                                <h5 class="card-title"><Link href={`/detail/${datas.strCategory}`} key={datas.idCategory}>
+                                <h5 class="card-title" style={{color : "red;" }}><Link style={{color : "red !important;" }} href={`/detail/${datas.strCategory}`}  key={datas.idCategory}>
                                     {datas.strCategory}</Link></h5>
                             </div>
                             </div>
