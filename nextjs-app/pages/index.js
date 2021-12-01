@@ -1,43 +1,80 @@
-import Link from "next/link"
-import styles from "../styles/Home.module.css"
-import Image from 'next/image';
-const PageAlldata = ({ data }) => {
-    return (
+import * as React from 'react';
+import {
+  Grid,Card,Container,Typography
+} from '@mui/material';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import styles from '../styles/Home.module.css'
+
+import Head from 'next/head'
+import Link from 'next/link'
+import { gql, useQuery } from "@apollo/client";
 
 
-        <div className="container">
-            <div className="row">
-                <div className={styles.flexcontainer}>
+const GET_CATEGORIES = gql`
+  query getCategories{
+    categories{
+      items{
+        id
+        name
+        description
+        children{
+          id
+          name
+          image
+          description
+          url_key
+          products{
+            total_count
+          }
+          include_in_menu
+          popular_icon
+        }
+      }
+      total_count
+    }
+  }
+`
 
-                    {data.categories.map(datas => (
-                        <div className="card" style={{ width: "18rem;", marginTop: "10px" }}>
-                            <img src={datas.strCategoryThumb} className="card-img-top" alt="..." />
-                            <div class="card-body">
-                                <h5 class="card-title" style={{color : "red;" }}><Link style={{color : "red !important;" }} href={`/detail/${datas.strCategory}`}  key={datas.idCategory}>
-                                    {datas.strCategory}</Link></h5>
-                            </div>
-                            </div>
-            ))}
-
-                        </div> 
-    
-  </div>
-            </div>
-
-            )
+const Category =()=>{
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
+  if (error) return (<p>Error :(</p>)
+  let ecategories = []
+  let items = []
+  if (!loading) {
+    items = data.categories.items
+    // totalCount = data.categories.total_count
+    items.forEach((groupCategory) => {
+      ecategories = [...groupCategory.children]
+    })
+  }
+  
+  
+  
+  return (ecategories.map(item =>
+   (
+    <div className={styles.pageContainer}>
+      <Container maxWidth="xl">
+          <Grid container spacing={3} columns={16}>
+      <Card sx={{ maxWidth: 345 }}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {item.name}
+        </Typography>
+        
+      </CardContent>
+      <CardActions>
+        <Link href={`categories/${item.id}`}>
+        <Button size="small">Klik Detail</Button>
+        </Link>
+      </CardActions>
+    </Card>
+    </Grid>
+    </Container>
+    </div>
+  )));
+  
 }
 
-
-
-
-            // This gets called on every request
-            export async function getServerSideProps() {
-    // Fetch data from external API
-    const res = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
-            const data = await res.json()
-
-            // Pass data to the page via props
-            return {props: {data} }
-}
-
-            export default PageAlldata
+export default Category

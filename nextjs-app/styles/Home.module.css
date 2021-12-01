@@ -1,5 +1,11 @@
 .container {
-  padding: 0 2rem;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+ ;
 }
 
 .main {
@@ -10,6 +16,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.pageContainer {
+  background-color: #ffffff;
+  flex: 1;
+  display: flex;
+  text-align:center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color:#000;
 }
 
 .footer {
